@@ -1,6 +1,7 @@
 package com.instrutor.edison.calculonumerico.c_erroscomputacionais.a_somatercos;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 
 public class MainSomaTercosBigDecimal {
@@ -10,11 +11,27 @@ public class MainSomaTercosBigDecimal {
         BigDecimal soma = BigDecimal.ZERO;
         BigDecimal um = BigDecimal.ONE;
         BigDecimal tres = BigDecimal.valueOf(3.0);
-        BigDecimal umTerco = um.divide(tres, 155, RoundingMode.CEILING);// .setScale(30, RoundingMode.FLOOR);
 
-        for (int i = 0; i < 2E3; i++) {
-            soma = soma.add(umTerco);
-            System.out.printf("Resultado da Soma %d - %s\n", i + 1, soma.toPlainString());
+        int precisao = 20;
+
+        MathContext mc = new MathContext(precisao, RoundingMode.CEILING);
+        MathContext mcMult = new MathContext(precisao+10, RoundingMode.CEILING);
+
+        BigDecimal umTerco = um.divide(tres, mc);
+
+        Long tempoInicial = System.currentTimeMillis();
+        Long tempoFinal ;
+        Long maxContagem = 300_000L ;
+
+        for (int i = 1; i <= maxContagem; i++) {
+            soma = soma.add(umTerco, mc);
+            BigDecimal mult =  umTerco.multiply(BigDecimal.valueOf(i), mcMult);
+            System.out.printf("(BIGDECIMAL)Resultado da Soma %d - %s - Porduto %s - Diff %s\n", i , soma.toPlainString(), mult.toPlainString(), soma.subtract(mult).abs(mcMult).toPlainString() );
         }
+
+        tempoFinal = System.currentTimeMillis();
+
+        System.out.println("(BIGDECIMAL)Tempo Gasto = " + (tempoFinal-tempoInicial) + " ms - Tempo gasto por iteração = " + ((double)(tempoFinal-tempoInicial))/((double)maxContagem) );
+
     }
 }
