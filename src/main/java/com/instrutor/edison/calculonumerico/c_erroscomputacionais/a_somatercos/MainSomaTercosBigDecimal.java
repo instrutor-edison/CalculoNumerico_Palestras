@@ -11,27 +11,28 @@ public class MainSomaTercosBigDecimal {
         BigDecimal soma = BigDecimal.ZERO;
         BigDecimal um = BigDecimal.ONE;
         BigDecimal tres = BigDecimal.valueOf(3.0);
-
+        boolean exibeIntermediarios = false;
         int precisao = 20;
 
         MathContext mc = new MathContext(precisao, RoundingMode.CEILING);
-        MathContext mcMult = new MathContext(precisao+10, RoundingMode.CEILING);
+        MathContext mcMult = new MathContext(precisao + 10, RoundingMode.CEILING);
 
         BigDecimal umTerco = um.divide(tres, mc);
 
         Long tempoInicial = System.currentTimeMillis();
-        Long tempoFinal ;
-        Long maxContagem = 300_000L ;
+        Long tempoFinal;
+        Long maxContagem = 300_000L;
 
         for (int i = 1; i <= maxContagem; i++) {
             soma = soma.add(umTerco, mc);
-            BigDecimal mult =  umTerco.multiply(BigDecimal.valueOf(i), mcMult);
-            System.out.printf("(BIGDECIMAL)Resultado da Soma %d - %s - Porduto %s - Diff %s\n", i , soma.toPlainString(), mult.toPlainString(), soma.subtract(mult).abs(mcMult).toPlainString() );
+            BigDecimal mult = umTerco.multiply(BigDecimal.valueOf(i), mcMult);
+            if (exibeIntermediarios)
+                System.out.printf("(BIGDECIMAL)Resultado da Soma %d - %s - Produto %s - Diff %s\n", i, soma.toPlainString(), mult.toPlainString(), soma.subtract(mult).abs(mcMult).toPlainString());
         }
 
         tempoFinal = System.currentTimeMillis();
 
-        System.out.println("(BIGDECIMAL)Tempo Gasto = " + (tempoFinal-tempoInicial) + " ms - Tempo gasto por iteração = " + ((double)(tempoFinal-tempoInicial))/((double)maxContagem) );
+        System.out.println("(BIGDECIMAL)Tempo Gasto = " + (tempoFinal - tempoInicial) + " ms - Tempo gasto por iteração = " + ((double) (tempoFinal - tempoInicial)) / ((double) maxContagem));
 
     }
 }

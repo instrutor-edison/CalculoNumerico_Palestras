@@ -52,7 +52,7 @@ public class MainSomaTercosBigDecimalErroETempo {
             BigDecimal mult =  umTerco.multiply(BigDecimal.valueOf(i), mcMult);
             diff = soma.subtract(mult).abs(mcMult);
             if (imprimeParciais)
-                System.out.printf("(BIGDECIMAL)Resultado da Soma %d - %s - Porduto %s - Diff %s\n", i , soma.toPlainString(), mult.toPlainString(), diff.toPlainString() );
+                System.out.printf("(BIGDECIMAL)Resultado da Soma %d - %s - Produto %s - Diff %s\n", i , soma.toPlainString(), mult.toPlainString(), diff.toPlainString() );
         }
 
         tempoFinal = System.currentTimeMillis();
